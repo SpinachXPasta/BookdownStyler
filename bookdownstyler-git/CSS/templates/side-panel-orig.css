@@ -1,0 +1,131 @@
+
+
+#TOC {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20%;
+  height: 100%;
+  overflow-y: auto;
+  background: #ffffff;
+  border-right: 2px solid #ccc;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+#TOC ul,
+#TOC li,
+#TOC span,
+#TOC a {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+#TOC:after,
+#TOC ul:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+#TOC a {
+  background: none;
+  color: #0073e6;
+  display: block;
+  padding: 10px 0;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+#TOC ul {
+  list-style: none;
+  padding-left: 20px;
+}
+
+#TOC > ul > li {
+  margin: 10px 0;
+}
+
+#TOC > ul > li > a {
+  font-weight: bold;
+}
+
+#TOC > ul > li:hover:after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #0073e6;
+  margin-left: -10px;
+}
+
+#TOC > ul > li:first-child > a {
+  border-radius: 10px 10px 0 0;
+}
+
+#TOC.align-right > ul > li:first-child > a,
+#TOC.align-center > ul > li:first-child > a {
+  border-radius: 0;
+}
+
+#TOC.align-right > ul > li:last-child > a {
+  border-radius: 0 10px 0 0;
+}
+
+#TOC > ul > li.active > a,
+#TOC > ul > li:hover > a {
+  color: #005bb5;
+  background: #e6f2ff;
+  border-left: 4px solid #0073e6;
+}
+
+#TOC .has-sub {
+  z-index: 1;
+}
+
+#TOC .has-sub:hover > ul {
+  display: block;
+}
+
+#TOC .has-sub ul {
+  display: block;
+  position: relative;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+#TOC .has-sub ul li a {
+  background: none;
+  border-bottom: 1px solid #ccc;
+  display: block;
+  line-height: 130%;
+  padding: 8px 0;
+  color: #0073e6;
+  transition: background 0.3s ease;
+}
+
+#TOC .has-sub ul li:hover a {
+  background: #e6f2ff;
+}
+
+#TOC ul ul li:hover > a {
+  color: #005bb5;
+}
+
+.main-content {
+  margin-left: 320px; 
+  padding: 20px;
+}
+
+
+.row {
+  margin-left: 15%;
+}

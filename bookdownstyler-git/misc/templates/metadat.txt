@@ -1,0 +1,10 @@
+title: ""
+author: ""
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [../content/book.bib, ../content/packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: 
+description: ""

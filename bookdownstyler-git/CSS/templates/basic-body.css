@@ -1,0 +1,30 @@
+p.caption {
+    color: #777;
+    margin-top: 10px;
+  }
+  p code {
+    white-space: inherit;
+  }
+  pre {
+    word-break: normal;
+    word-wrap: normal;
+  }
+  pre code {
+    white-space: inherit;
+  }
+  
+
+
+  #bookdowndiv {
+    font-family: 'Georgia', serif;
+    background: #f4f4f4;
+    color: #333;
+    padding: 20px;
+    height: 100vh;
+    overflow:auto;
+  }
+
+
+ 
+
+ 

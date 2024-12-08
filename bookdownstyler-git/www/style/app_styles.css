@@ -1,0 +1,114 @@
+.user-nav-bar  {
+    padding-top: 10px;
+
+}
+
+
+.enlarge-on-hover {
+            transition: transform 0.3s ease-in-out;
+}
+
+.enlarge-on-hover:hover {
+    transform: scale(2);
+}
+
+
+.full-width-span {
+            display: block;
+            width: 100%;
+        }
+        
+        
+.scrollable-window {
+    width: 100%; /* Inherits the width of the parent */
+    height: 400pt; /* Inherits the height of the parent */
+    overflow: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+}
+
+
+.highlight {
+    background-color: yellow;
+}
+
+
+
+#user_open_table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+#user_open_table th, #user_open_table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#user_open_table thead {
+    font-weight: bold;
+}
+
+
+
+
+/* Table Styling */
+.rmd-table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+  }
+  
+  /* Table Header Styling */
+  .rmd-table thead th {
+    background-color: #007bff;
+    color: white;
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 2px solid #dee2e6;
+  }
+  
+  /* Table Body Styling */
+  .rmd-table tbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
+  }
+  
+  .rmd-table tbody tr:hover {
+    background-color: #e9ecef;
+  }
+  
+  .rmd-table tbody td {
+    padding: 0.75rem;
+    border-top: 1px solid #dee2e6;
+  }
+  
+  /* Table Footer Styling */
+  .rmd-table tfoot th {
+    background-color: #007bff;
+    color: white;
+    text-align: left;
+    padding: 0.75rem;
+    border-top: 2px solid #dee2e6;
+  }
+  
+  /* Responsive Table */
+  .rmd-table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 400px; 
+    max-width: 600px; 
+    overflow-y: auto; 
+  }
+  
+  
+  
+  
+  /*Disable all links inside user rendered*/
+  /*https://stackoverflow.com/questions/17186950/find-all-link-in-a-div-element-and-disable-them-all*/
+  #rmd_tool_display_box {
+    pointer-events: none;
+    cursor: default;
+  }

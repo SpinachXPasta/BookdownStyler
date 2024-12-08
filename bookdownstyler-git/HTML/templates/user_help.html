@@ -1,0 +1,60 @@
+<div>
+    <p>Here are some general guidance.</p>
+    <p>Make sure all the Rmd codes work well.</p>
+    <p>Please make sure the sequence of pages being uploaded is correct. The program will run them in the order you provide. If the sequence is not correct, variables assigned will not be read as the sequence of running code will be different.</p>
+    <p>Please make sure that for thr rendered files if you are not selected pages sequentially, i.e you choose index, page2, page5 for example, the variables assigned in each rmd are not in any other, again as this is a sequential issue.</p>
+    <p>Please refrein from using tidyverse and provide the packages you are using</p>
+    <p>If you are using <code>library</code> or <code>require</code> in your rmd please use the process below to expedite speed up the code run process and to install packages if they are not installed.</p>
+    <p>
+        <code>
+        </br>req_pkgs = c("purrr","dplyr","tidyr","stringr","ggplot2") # your packages can replace this
+        </br>installed_pkges = row.names(installed.packages())
+        </br>d_pk = setdiff(req_pkgs,  installed_pkges)
+
+        </br>if (length(d_pk) > 0){
+        </br>install.packages( d_pk, repos = "http://cran.us.r-project.org")
+        </br>}
+        </code>
+    </p>
+    <p>Please put this code prior to calling the loading any packages</p>
+    <p>List of available packages that dont require installation</p>
+    <code>
+        </br>library(dplyr)
+        </br>library(shiny)
+        </br>library(shinyauthr)
+        </br>library(DBI)
+        </br>library(RSQLite)
+        </br>library("shiny.router")
+        </br>library(shiny)
+        </br>library(shinyjs)
+        </br>library(purrr)
+        </br>library(shinyFiles)
+        </br>library(ggplot2)
+        </br>library(stringr)
+        </br>library(tidyr)
+        </br>library(dplyr)
+        </br>library(xlsx)
+        </br>library(openxlsx)
+        </br>library(writexl)
+        </br>library(kableExtra)
+        </br>library(DT)
+        </br>library(grid)
+        </br>library(gtable)
+        </br>library(htmlwidgets)
+        </br>library(shinyalert)
+        </br>library(readr)
+        </br>library(rvest)
+        </br>library(xml2)
+        </br>library(fs)
+        </br>library(colourpicker)
+        </br>library(R.utils)
+        </br>library(bookdown)
+        </br>library(rstudioapi)
+        </br>library(downlit)
+        </br>library(lubridate)
+        </br>library(survival)
+        </br>library(magrittr)
+    </code>
+
+
+</div>

@@ -1,0 +1,35 @@
+p.caption  { 
+    color:  #333; 
+    margin-top:  10px; 
+ } 
+
+  p code  { 
+    white-space:  inherit; 
+ } 
+
+  pre  { 
+    word-break:  normal; 
+    word-wrap:  normal; 
+ } 
+
+  pre code  { 
+    white-space:  inherit; 
+ } 
+
+    #bookdowndiv  { 
+    font-family:  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; 
+    background:  #ffffff; 
+    color:  #333; 
+    padding:  20px; 
+    height:  100vh; 
+    overflow: auto; 
+ } 
+
+   .container, .container-fluid, .container-xl, .container-lg, .container-md, .container-sm  { 
+    width:  100%; 
+    padding-right:  15px; 
+    padding-left:  15px; 
+    margin-right:  auto; 
+    margin-left:  10pt; 
+ } 
+

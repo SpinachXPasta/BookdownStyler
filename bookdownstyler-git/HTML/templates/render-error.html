@@ -1,0 +1,23 @@
+<div>
+    <p>Your file was unable to be rendered.</p>
+    <p>It might be due to the following reasons</p>
+    <p>There is something wrong with the rmd file, please make sure it runs.</p>
+    <p>Please make sure the sequence of pages being uploaded is correct. The program will run them in the order you provide. If the sequence is not correct, variables assigned will not be read as the sequence of running code will be different.</p>
+    <p>Please make sure that for thr rendered files if you are not selected pages sequentially, i.e you choose index, page2, page5 for example, the variables assigned in each rmd are not in any other, again as this is a sequential issue.</p>
+    <p>Please refrein from using tidyverse and provide the packages you are using</p>
+    <p>If you are using <code>library</code> or <code>require</code> in your rmd please use the process below to expedite speed up the code run process and to install packages if they are not installed.</p>
+    <p>
+        <code>
+        </br>req_pkgs = c("purrr","dplyr","tidyr","stringr","ggplot2") # your packages can replace this
+        </br>installed_pkges = row.names(installed.packages())
+        </br>d_pk = setdiff(req_pkgs,  installed_pkges)
+
+        </br>if (length(d_pk) > 0){
+        </br>install.packages( d_pk, repos = "http://cran.us.r-project.org")
+        </br>}
+        </code>
+    </p>
+    <p>Please put this code prior to calling the loading any packages</p>
+    <p>A list of available packages that dont require installation can be found in the help tab</p>
+
+</div>
