@@ -1,0 +1,363 @@
+# Heading 1
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(stringsAsFactors = FALSE) ## prevent read in string data to factors.
+
+req_pkgs = c("purrr","dplyr","tidyr","stringr","ggplot2","ggrepel","gplots"," magrittr")
+installed_pkges = row.names(installed.packages())
+d_pk = setdiff(req_pkgs, installed_pkges)
+if (length(d_pk) > 0){
+install.packages( d_pk, repos = "http://cran.us.r-project.org")
+}
+
+
+
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+library(magrittr)
+library(ggrepel)
+library(gplots)
+```
+
+## Name: Siddhartha Pachhai
+
+## Question A (15 pts)
+#### 1. Basic calculation in R. (5 pts)
+$x_s = (x_{s1}, \dots, x_{sn})$ and $w_s = (w_{s1}, \dots, w_{sn})$ ($s = 1,2,3,4$) are vectors defined in the R code below.
+We want to calculate $\sum_i^n(x^2_{si}/w^2_{si})$ where $i$ is the element index.
+Using Map/mapply function to achieve this calculation for all s.
+Note you need to return a vector instead of a list.
+
+```{r}
+set.seed(32611)
+xs <- replicate(4, runif(10), simplify = FALSE)
+ws <- replicate(4, rpois(10, 5) + 1, simplify = FALSE)
+```
+
+
+```{r }
+mapply(function(x,y){sum(x^2/y^2)},xs,ws)
+```
+
+
+
+
+#### 2. Find the intersection recursively using Reduce() function. (5 pts)
+In other word, find the element(s) that appear in all 5 lists of vectors.
+```{r}
+k <- 5
+set.seed(32611)
+alist <- replicate(k,sample(k,5,replace = TRUE), simplify = FALSE)
+
+```
+
+
+```{r }
+Reduce(intersect,alist)
+```
+
+
+
+#### 3. Replicate Huber function figure. (5 pts)
+In HW1, we have seen the Huber function <https://en.wikipedia.org/wiki/Huber_loss>:
+$$
+f(x) = \begin{cases}
+x^2 & \text{if $|x| \leq 1$} \\
+2|x| - 1 & \text{if $|x| > 1$} 
+\end{cases}
+$$
+
+The Huber function is quadratic in the interval [-1, 1] (red line in the figure below) and linear outside the interval (blue line in the figure below). The transitioning between these two curves is smooth as you can verify from the derivatives. 
+
+![](https://caleb-huo.github.io/teaching/2017FALL/HW/HW1/huber.png)
+
+Please reproduce the figure above. 
+Note that you need x axis label "x"; y axis label "f(x)"; x axis range (-2,2); title "Huber",
+the quadratic part in the interval [-1, 1] is in red color and linear part outside the interval is in blue color.
+You don't need to worry about the margin if the figure doesn't perfectly match the above figure.
+
+```{r, fig.height = 5, fig.width = 5}
+## Your code
+
+huber_func <- function(x, a=1){
+  x = abs(x)
+  ifelse(x <= a, x**2, 2*a*x - a^2)
+}
+
+square_func <- function(x){x^2}
+plot(NULL,xlim = c(-2,2),ylim = c(0,3),xlab = "x", ylab="f(x)",)
+segments(x0 = -2, y0 = huber_func(-2),x1 = -1, y1 = huber_func(-1), col = "blue", xlim = c(-2,2),ylim = c(0,3),xlab = "x", ylab="f(x)")
+curve(huber_func, from = -1,to=1, col = "red", add = TRUE)
+segments(x0 = 1, y0 = huber_func(1),x1 = 2, y1 = huber_func(2), col = "blue", xlim = c(-2,2),ylim = c(0,3),xlab = "x", ylab="f(x)")
+title("Huber")
+
+
+
+```
+
+
+
+## Question B (45 pts)
+The Iris flower data set <https://en.wikipedia.org/wiki/Iris_flower_data_set> is a multivariate data set introduced by the famous statistician Ronald Fisher.
+The data set consists of 50 samples from each of three species of Iris (Iris setosa, Iris virginica and Iris versicolor). Four features were measured from each sample: the length and the width of the sepals and petals, in centimetres.
+
+![](https://caleb-huo.github.io/teaching/2018FALL/HW/HW2/irisData.jpg)![](https://caleb-huo.github.io/teaching/2018FALL/HW/HW2/irisFeature.jpg)
+
+Iris data is available in R data(iris), with total `r nrow(iris)` samples.
+Please answer the following questions:
+
+#### 1. Calculate the mean of Petal.Length by Species (5 pts). 
+
+```{r}
+## your code
+iris %>% group_by(Species) %>% summarise("Average Petal Length" = mean(Petal.Length))
+
+```
+
+#### 2. For each of the four features (i.e., Sepal.Length, Sepal.Width, Petal.Length, Petal.Width), calculate the mean value by species. (5 pts)
+(Hint: use group_by and summarize_all). 
+
+```{r}
+## your code
+iris %>% group_by(Species) %>% summarise_all(mean)
+
+
+```
+
+
+#### 3. For each of the four features, calculate the difference between maximum value and the minimum value  (5 pts)
+The results will be a vector of four elements (naturally ordered by 1. Sepal.Length, 2. Sepal.Width, 3. Petal.Length and 4, Petal.Width).
+
+```{r}
+## your code
+apply(iris[,-5],2,function(x){max(x) - min(x)}) #%>%unname() #uncomment to returned unnamedvector
+
+```
+
+
+
+
+
+
+#### 4. Divide each of the four features by the maximum value of the feature. (5 pts)
+We end up with a matrix of the same dimension (`r dim(iris[,-5])`) as the original matrix but after this standardization step, all values range between 0 and 1. 
+Use the sweep() function. 
+Only print the first 6 rows of your result.
+
+
+
+```{r}
+## your code
+sweep(iris[,-5],2,apply(iris[,-5],2,max),"/") %>% as.matrix() %>% head()
+
+```
+
+#### 5.Correlation heatmap (5 pts)
+For each pairs of samples, calculate their Pearson correlation using cor() function. (Try to see if you can avoid loops.). 
+You will get a `r nrow(iris)` by `r nrow(iris)` matrix.
+Visualize the correlation matrix by heatmap.
+In the correlation heatmap, keep the same sample order as the original data matrix.
+Avoid your function automatically standardizes each row to mean 0 and sd 1.
+Correlation heatmap is a good diagnostic tool to visualize the similarity among samples.
+The diagonal lines have correlation 1 since these are samples' correlation with themselves.
+From this figure, you can see which two species are more similar.
+
+
+
+```{r}
+## your code
+cor_df <- cor(t(iris[-5]))
+dim(cor_df)
+```
+
+```{r fig.width=5, fig.height=5}
+heatmap.2(cor_df, Rowv = FALSE, Colv = FALSE, scale = "none", dendrogram = "none", trace = "none")
+```
+
+
+
+#### 6. Add legend to the heatmap. (5 pts)
+Based on the figure from 5, put color bars on both row side and column side to denote species. add appropriate legend at appropriate location.
+
+```{r fig.width=5, fig.height=5}
+Species <- iris$Species
+color0 <- Species
+levels(color0) <- c("red","green","blue")
+heatmap.2(cor_df, Rowv = FALSE, Colv = FALSE, scale = "none", dendrogram = "none", trace = "none", RowSideColors = as.character(color0), ColSideColors = as.character(color0))
+
+legend("topright",legend = levels(Species),fill = levels(color0))
+```
+
+#### 7.Scattered plot. (5 pts)
+Draw scattered plot of Sepal.Length (x axis) versus Sepal.Width (y axis).
+Color the dots with the following coding (setosa: red. versicolor: green; virginica: blue).
+You can use any function, but **there should be no figure legend for this question**.
+
+```{r}
+## your code
+c_scheme <- ifelse(iris$Species == "setosa","red",ifelse(iris$Species =="versicolor","green","blue"))
+
+
+
+plot(iris$Sepal.Length, iris$Sepal.Width, xlab = "Sepal Length", ylab = "Sepal Width", col = c_scheme,  pch = 16)
+
+```
+
+#### 8. Add legend. (5 pts)
+Based on the figure from 7, add appropriate legend (for species) at appropriate location.
+In the legend, you should have the same type of dot symbol (color and shape as the dots in the figure) as well as species names. 
+You can use any function. 
+
+```{r}
+## your code
+
+Species <- iris$Species
+color0 <- Species
+levels(color0) <- c("red","green","blue")
+
+plot(iris$Sepal.Length, iris$Sepal.Width, xlab = "Sepal Length", ylab = "Sepal Width", col = c_scheme, bg = c_scheme, pch = 16)
+
+legend("topright",legend = levels(Species),col = levels(color0), pch = 16)
+
+```
+
+#### 9. Add regression lines. (5 pts)
+Based on the previous figure, add regression lines on top of the scattered plot for each species.
+The line color should be consistent with dots colors.
+If you need more hints refer to here <http://www.statmethods.net/graphs/scatterplot.html> (use abline() function).
+Note that in this question you don't have to draw a legend.
+Again, you can also use function (you don't have to use the hint). 
+
+```{r}
+## your code
+
+
+plot(iris$Sepal.Length, iris$Sepal.Width, xlab = "Sepal Length", ylab = "Sepal Width", col = c_scheme, bg = c_scheme, pch = 16)
+
+abline(lm(Sepal.Width~Sepal.Length,data = iris, subset = Species == "setosa"), col = "red")
+abline(lm(Sepal.Width~Sepal.Length,data = iris, subset = Species == "versicolor"), col = "green")
+abline(lm(Sepal.Width~Sepal.Length,data = iris, subset = Species == "virginica"), col = "blue")
+
+```
+
+## Question C (35 pts)
+We want to investigate and visualize the diamonds data!
+A dataset containing the prices and other attributes of almost 54,000 diamonds is included in R ggplot2 package, including carat, color, clarity, cut, total depth, table, depth, width, height and price.
+
+![](https://caleb-huo.github.io/teaching/2017FALL/HW/HW2/diamond.png)
+
+
+You need to install the ggplot2 package first.
+The load the diamonds data in R by:
+```{r}
+library(ggplot2)
+data(diamonds)
+```
+For details, check ?diamonds.
+There are total `r nrow(diamonds)` diamonds, and **we will only work on the subset of diamonds** with the best clarity (clarity == "IF").
+```{r}
+diamonds.subset <- subset(x = diamonds, subset = clarity == "IF")
+```
+This will reduce to `r nrow(diamonds.subset)` diamonds. Again, **only work on diamonds.subset**
+throughout this question, you are required to use **ggplot() function** to generate figures.
+
+#### 1. Draw scattered plot of carat (x-axis) versus price (y-axis). Use the color variable as the color aesthetic mapping (5 pts)
+```{r}
+## Your code
+ggplot(data=diamonds.subset) + geom_point(aes(x = carat, y = price, color = color))
+```
+
+#### 2. Based on question 1, wrap the figures by color (5 pts)
+You will end up with 7 sub-figures, with each sub-figure representing the scattered plot of carat versus price for a color.
+Any facet style is OK.
+
+```{r}
+## Your code
+ggplot(data=diamonds.subset) + geom_point(aes(x = carat, y = price, color = color)) + facet_wrap(~color)
+
+```
+
+
+#### 3. Based on question 1, use the volumn ($x\times y \times z$) as the size aesthetic mapping (5 pts)
+Also, label the point with the largest carat value within each color group as **H-Color** using red color.
+For example, if the color is D, label the point as **H-D** with red color in the figure, etc.
+If there are multiple maximums, you can either mark one of them, or mark all of them.
+
+```{r}
+## Your code
+
+
+diamonds.subset.highest <- diamonds.subset %>%
+  mutate(volume = x*y*z) %>%
+  group_by(color) %>%
+  filter(volume == max(volume)) %>%
+  mutate(label = paste0("H-",color, " (",carat,",",price,")"))
+
+ggplot() + geom_point(aes(x = carat, y = price, color = color, size = x*y*z), data=diamonds.subset) + 
+  geom_text_repel(aes(x = carat, y = price, 
+                        label = label),                                                         box.padding   = 1.5, 
+                        point.padding = 0,
+                        segment.color = 'grey50',
+                        color = "red",
+                        data=diamonds.subset.highest)
+```
+
+
+#### 4. Based on question 1, add a smooth curve fitting to the scattered plot by group. (5 pts)
+Hint: geom smooth, you can just use the default option.
+```{r}
+## Your code
+ggplot(aes(x = carat, y = price, color = color),data=diamonds.subset) + geom_point() +geom_smooth( se = FALSE, linewidth = 0.5)
+
+```
+
+#### 5. Investigate the price/carat ratio by color. (5 pts)
+Create boxplot of price/carat ratio by color.
+Use color variable as the color aesthetic mapping.
+Also put jittered dots on top of the boxplot, and set the transparent level of the jittered dots as 0.5. 
+
+```{r}
+ggplot(aes(x = color, y = price/carat, color = color),data=diamonds.subset) + geom_boxplot() + geom_jitter(alpha=0.5)
+```
+
+#### 6. Draw histogram of the price, fill by cut (aesthetic option), wrap by color (5 pts)
+Use black white (bw) theme. The price value (i.e., the number on  the x-axis) should be vertical instead of the default horizontal.  
+
+
+```{r}
+ggplot(aes(x = price, fill = cut),data=diamonds.subset) + geom_boxplot() + coord_flip() + facet_wrap(~color) + theme_bw() + theme(axis.ticks.x = element_blank(),
+    axis.text.x = element_blank())
+
+```
+
+
+#### 7. Draw barplot of color count, fill by cut (aesthetic option). Also use position="dodge" such that within each color, different cuts will be placed side by side. (5 pts)
+Also, you need to flip x-axis and y-axis for this barplot.
+```{r}
+ggplot(diamonds.subset, aes(x = color, fill = cut)) +
+  geom_bar(position = "dodge") + coord_flip()
+```
+
+
+## Note (5 pts):
+
+
+### Homework should be uploaded to courseweb:
+1. Don't forget to write your name in this HW (E.g., Name:XXX).
+1. Save your compiled result as html file. Rename the file name as: hw2_Lastname_Firstname.html.
+2. Don't forget to write your name on the top of the html file.
+3. RMD file is not required. You only need to upload the html file to the [e-leaning](https://elearning.ufl.edu) website.
+
+### If you generate a figure, please write appropriate figure title, labels, legend if necessary. 
+
+### If your code is not intuitive, please write comments to make the code readible. 
+
+
+

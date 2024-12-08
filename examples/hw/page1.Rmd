@@ -1,0 +1,77 @@
+# Page 1
+
+## Question A (15 pts)
+#### 1. Basic calculation in R. (5 pts)
+$x_s = (x_{s1}, \dots, x_{sn})$ and $w_s = (w_{s1}, \dots, w_{sn})$ ($s = 1,2,3,4$) are vectors defined in the R code below.
+We want to calculate $\sum_i^n(x^2_{si}/w^2_{si})$ where $i$ is the element index.
+Using Map/mapply function to achieve this calculation for all s.
+Note you need to return a vector instead of a list.
+
+```{r}
+set.seed(32611)
+xs <- replicate(4, runif(10), simplify = FALSE)
+ws <- replicate(4, rpois(10, 5) + 1, simplify = FALSE)
+```
+
+
+```{r }
+mapply(function(x,y){sum(x^2/y^2)},xs,ws)
+```
+
+
+
+
+#### 2. Find the intersection recursively using Reduce() function. (5 pts)
+In other word, find the element(s) that appear in all 5 lists of vectors.
+```{r}
+k <- 5
+set.seed(32611)
+alist <- replicate(k,sample(k,5,replace = TRUE), simplify = FALSE)
+
+```
+
+
+```{r }
+Reduce(intersect,alist)
+```
+
+
+
+#### 3. Replicate Huber function figure. (5 pts)
+In HW1, we have seen the Huber function <https://en.wikipedia.org/wiki/Huber_loss>:
+$$
+f(x) = \begin{cases}
+x^2 & \text{if $|x| \leq 1$} \\
+2|x| - 1 & \text{if $|x| > 1$} 
+\end{cases}
+$$
+
+The Huber function is quadratic in the interval [-1, 1] (red line in the figure below) and linear outside the interval (blue line in the figure below). The transitioning between these two curves is smooth as you can verify from the derivatives. 
+
+![](https://caleb-huo.github.io/teaching/2017FALL/HW/HW1/huber.png)
+
+Please reproduce the figure above. 
+Note that you need x axis label "x"; y axis label "f(x)"; x axis range (-2,2); title "Huber",
+the quadratic part in the interval [-1, 1] is in red color and linear part outside the interval is in blue color.
+You don't need to worry about the margin if the figure doesn't perfectly match the above figure.
+
+```{r, fig.height = 5, fig.width = 5}
+## Your code
+
+huber_func <- function(x, a=1){
+  x = abs(x)
+  ifelse(x <= a, x**2, 2*a*x - a^2)
+}
+
+square_func <- function(x){x^2}
+plot(NULL,xlim = c(-2,2),ylim = c(0,3),xlab = "x", ylab="f(x)",)
+segments(x0 = -2, y0 = huber_func(-2),x1 = -1, y1 = huber_func(-1), col = "blue", xlim = c(-2,2),ylim = c(0,3),xlab = "x", ylab="f(x)")
+curve(huber_func, from = -1,to=1, col = "red", add = TRUE)
+segments(x0 = 1, y0 = huber_func(1),x1 = 2, y1 = huber_func(2), col = "blue", xlim = c(-2,2),ylim = c(0,3),xlab = "x", ylab="f(x)")
+title("Huber")
+
+
+
+```
+
+

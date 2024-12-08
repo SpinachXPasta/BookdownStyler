@@ -1,0 +1,67 @@
+# Page 3
+
+
+#### 6. Add legend to the heatmap. (5 pts)
+Based on the figure from 5, put color bars on both row side and column side to denote species. add appropriate legend at appropriate location.
+
+```{r  fig.width=5, fig.height=5}
+Species <- iris$Species
+color0 <- Species
+levels(color0) <- c("red","green","blue")
+heatmap.2(cor_df, Rowv = FALSE, Colv = FALSE, scale = "none", dendrogram = "none", trace = "none", RowSideColors = as.character(color0), ColSideColors = as.character(color0))
+
+legend("topright",legend = levels(Species),fill = levels(color0))
+```
+
+#### 7.Scattered plot. (5 pts)
+Draw scattered plot of Sepal.Length (x axis) versus Sepal.Width (y axis).
+Color the dots with the following coding (setosa: red. versicolor: green; virginica: blue).
+You can use any function, but **there should be no figure legend for this question**.
+
+```{r}
+## your code
+c_scheme <- ifelse(iris$Species == "setosa","red",ifelse(iris$Species =="versicolor","green","blue"))
+
+
+
+plot(iris$Sepal.Length, iris$Sepal.Width, xlab = "Sepal Length", ylab = "Sepal Width", col = c_scheme,  pch = 16)
+
+```
+
+#### 8. Add legend. (5 pts)
+Based on the figure from 7, add appropriate legend (for species) at appropriate location.
+In the legend, you should have the same type of dot symbol (color and shape as the dots in the figure) as well as species names. 
+You can use any function. 
+
+```{r}
+## your code
+
+Species <- iris$Species
+color0 <- Species
+levels(color0) <- c("red","green","blue")
+
+plot(iris$Sepal.Length, iris$Sepal.Width, xlab = "Sepal Length", ylab = "Sepal Width", col = c_scheme, bg = c_scheme, pch = 16)
+
+legend("topright",legend = levels(Species),col = levels(color0), pch = 16)
+
+```
+
+#### 9. Add regression lines. (5 pts)
+Based on the previous figure, add regression lines on top of the scattered plot for each species.
+The line color should be consistent with dots colors.
+If you need more hints refer to here <http://www.statmethods.net/graphs/scatterplot.html> (use abline() function).
+Note that in this question you don't have to draw a legend.
+Again, you can also use function (you don't have to use the hint). 
+
+```{r}
+## your code
+
+
+plot(iris$Sepal.Length, iris$Sepal.Width, xlab = "Sepal Length", ylab = "Sepal Width", col = c_scheme, bg = c_scheme, pch = 16)
+
+abline(lm(Sepal.Width~Sepal.Length,data = iris, subset = Species == "setosa"), col = "red")
+abline(lm(Sepal.Width~Sepal.Length,data = iris, subset = Species == "versicolor"), col = "green")
+abline(lm(Sepal.Width~Sepal.Length,data = iris, subset = Species == "virginica"), col = "blue")
+
+```
+

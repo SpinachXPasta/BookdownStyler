@@ -1,0 +1,41 @@
+---
+title: "HW2"
+author: "Total points: 100 (5% of final grade)."
+date: "Due: 11:59 pm, Thursday Sep 26th, 2024"
+output: html_document
+---
+
+# Index Page
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(stringsAsFactors = FALSE) ## prevent read in string data to factors.
+
+
+req_pkgs = c("purrr","dplyr","tidyr","stringr","ggplot2","ggrepel","gplots")
+installed_pkges = row.names(installed.packages())
+d_pk = setdiff(req_pkgs,  installed_pkges)
+
+if (length(d_pk) > 0){
+  install.packages( d_pk, repos = "http://cran.us.r-project.org")
+}
+
+
+
+
+
+library(purrr)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+library(ggrepel)
+library(gplots)
+```
+
+## Name: Siddhartha Pachhai
+
+
+
+
+

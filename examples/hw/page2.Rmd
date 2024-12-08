@@ -1,0 +1,81 @@
+
+# Page 2
+
+## Question B (45 pts)
+The Iris flower data set <https://en.wikipedia.org/wiki/Iris_flower_data_set> is a multivariate data set introduced by the famous statistician Ronald Fisher.
+The data set consists of 50 samples from each of three species of Iris (Iris setosa, Iris virginica and Iris versicolor). Four features were measured from each sample: the length and the width of the sepals and petals, in centimetres.
+
+![](https://caleb-huo.github.io/teaching/2018FALL/HW/HW2/irisData.jpg)![](https://caleb-huo.github.io/teaching/2018FALL/HW/HW2/irisFeature.jpg)
+
+Iris data is available in R data(iris), with total `r nrow(iris)` samples.
+Please answer the following questions:
+
+#### 1. Calculate the mean of Petal.Length by Species (5 pts). 
+
+```{r}
+## your code
+iris %>% group_by(Species) %>% summarise("Average Petal Length" = mean(Petal.Length))
+
+```
+
+#### 2. For each of the four features (i.e., Sepal.Length, Sepal.Width, Petal.Length, Petal.Width), calculate the mean value by species. (5 pts)
+(Hint: use group_by and summarize_all). 
+
+```{r}
+## your code
+iris %>% group_by(Species) %>% summarise_all(mean)
+
+
+```
+
+
+#### 3. For each of the four features, calculate the difference between maximum value and the minimum value  (5 pts)
+The results will be a vector of four elements (naturally ordered by 1. Sepal.Length, 2. Sepal.Width, 3. Petal.Length and 4, Petal.Width).
+
+```{r}
+## your code
+apply(iris[,-5],2,function(x){max(x) - min(x)}) #%>%unname() #uncomment to returned unnamedvector
+
+```
+
+
+
+
+
+
+#### 4. Divide each of the four features by the maximum value of the feature. (5 pts)
+We end up with a matrix of the same dimension (`r dim(iris[,-5])`) as the original matrix but after this standardization step, all values range between 0 and 1. 
+Use the sweep() function. 
+Only print the first 6 rows of your result.
+
+
+
+```{r}
+## your code
+sweep(iris[,-5],2,apply(iris[,-5],2,max),"/") %>% as.matrix() %>% head()
+
+```
+
+#### 5.Correlation heatmap (5 pts)
+For each pairs of samples, calculate their Pearson correlation using cor() function. (Try to see if you can avoid loops.). 
+You will get a `r nrow(iris)` by `r nrow(iris)` matrix.
+Visualize the correlation matrix by heatmap.
+In the correlation heatmap, keep the same sample order as the original data matrix.
+Avoid your function automatically standardizes each row to mean 0 and sd 1.
+Correlation heatmap is a good diagnostic tool to visualize the similarity among samples.
+The diagonal lines have correlation 1 since these are samples' correlation with themselves.
+From this figure, you can see which two species are more similar.
+
+
+
+```{r}
+## your code
+cor_df <- cor(t(iris[-5]))
+dim(cor_df)
+```
+
+```{r fig.width=5, fig.height=5}
+heatmap.2(cor_df, Rowv = FALSE, Colv = FALSE, scale = "none", dendrogram = "none", trace = "none")
+```
+
+
